@@ -10,3 +10,29 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+res/img/old/admin.html
+res/img/old/admin.png
+res/img/old/class_diagram.html
+res/img/old/class_diagram.png
+res/img/old/client.html
+res/img/old/client.png
+res/img/old/performer.html
+res/img/old/performer.png
+res/img/old/sequence_diagram_admin.html
+res/img/old/sequence_diagram_admin.png
+res/img/old/sequence_diagram_client.html
+res/img/old/sequence_diagram_client.png
+res/img/old/sequence_diagram_performer.html
+res/img/old/sequence_diagram_performer.png
+res/img/old/use_case.html
+res/img/old/use_case.png
+res/img/old2/class_diagram.html
+res/img/old2/class_diagram.png
+res/img/old2/sequence_diagram_agency.html
+res/img/old2/sequence_diagram_agency.png
+res/img/old2/sequence_diagram_client.html
+res/img/old2/sequence_diagram_client.png
+res/img/old2/sequence_diagram_performer.html
+res/img/old2/sequence_diagram_performer.png
+res/img/old_class_diagram.png
+res/img/old_sequence_diagram_client.png
