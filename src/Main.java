@@ -7,7 +7,10 @@ public class Main {
         DataGateway.initdb();
         DataGateway.connect();
 
+        SimpleHttpServer server = new SimpleHttpServer();
+
         AuthFrame af = new AuthFrame();
         af.setVisible(true);
+
     }
 }
