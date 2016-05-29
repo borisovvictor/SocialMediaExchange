@@ -10,9 +10,13 @@ public class AgencyGateway {
                 "select * from agencies join users on users.id = agencies.user_id and users.id = " + userID);
     }
 
-    public String getAllAgencys(){
+    public String getAllAgencies(){
         return DataGateway.request("select * from agencies join users on users.id = agencies.user_id");
     }
+
+    public String getAllAgencyIDs(){
+        return DataGateway.request("select id from agencies");
+    };
 
     public int getAgencyIdByUserId(int userID){
         if(userID < 1){

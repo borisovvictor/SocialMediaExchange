@@ -66,17 +66,31 @@ public class PerformerLogic {
 
     public void approveOrderConditions(int orderid)
     {
-        orl.setOrderStatusById(orderid, Order.Status.APPROVED);
+        Order.Status currentStatus = orl.getOrderStatusById(orderid);
+        if (currentStatus == Order.Status.COND_OFFERED
+           || currentStatus == Order.Status.REJECTED)
+        {
+            orl.setOrderStatusById(orderid, Order.Status.APPROVED);
+        }
     }
 
     public void rejectOrderConditions(int orderid)
     {
-        orl.setOrderStatusById(orderid, Order.Status.REJECTED);
+        Order.Status currentStatus = orl.getOrderStatusById(orderid);
+        if (currentStatus == Order.Status.COND_OFFERED
+                || currentStatus == Order.Status.APPROVED)
+        {
+            orl.setOrderStatusById(orderid, Order.Status.REJECTED);
+        }
     }
 
     public void performOrder(int orderid)
     {
-        orl.setOrderStatusById(orderid, Order.Status.COMPLETED);
+        Order.Status currentStatus = orl.getOrderStatusById(orderid);
+        if (currentStatus == Order.Status.PAYMENT_CONFIRMED)
+        {
+            orl.setOrderStatusById(orderid, Order.Status.PERFORMED);
+        }
     }
 
     public void performPaymentToPerformer(int performer_id, double money_amount)

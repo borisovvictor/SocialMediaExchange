@@ -38,7 +38,7 @@ public class PerformerGateway {
         }
 
         DataGateway.update("insert into performers (user_id, phone_number, agency_id, money_amount) values ("
-                + userID + ",\'" + phoneNumber + ",\'" + agencyID + "," + 0 + ")");
+                + userID + ",\'" + phoneNumber + "\'," + agencyID + "," + 0 + ")");
     }
 
     public double getPerformerMoneyAmount(int performerID){

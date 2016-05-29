@@ -62,6 +62,35 @@ public class OfferLogic {
         return offers;
     }
 
+    public List<Offer> getOffersByPerformerId(int performer_id)
+    {
+        List<Offer> offers = new ArrayList<>();
+
+        String offersString = og.getOffersByPerformerId(performer_id);
+
+        if(offersString.isEmpty()){
+            return offers;
+        }
+
+        String[] fields = offersString.split("\n");
+        int columnCount = 6;
+        int count = fields.length / columnCount;
+
+        for (int idx =0; idx < count; idx++)
+        {
+            Offer o = new Offer();
+            o.setID(Integer.parseInt(fields[0 + idx * columnCount]));
+            o.setPerformerID(Integer.parseInt(fields[1 + idx * columnCount]));
+            o.setPrice(Double.parseDouble(fields[2 + idx * columnCount]));
+            o.setPeriod(Integer.parseInt(fields[3 + idx * columnCount]));
+            o.setDescription(fields[4 + idx * columnCount]);
+            o.setSocialMedia(fields[5 + idx * columnCount]);
+            offers.add(o);
+        }
+
+        return offers;
+    }
+
     public String getAllOffers(){
         return og.getAllOffers();
     }
@@ -72,5 +101,12 @@ public class OfferLogic {
         }
 
         return og.addOffer(perfomer_id, price, period, description, socail_media);
+    }
+
+    public void removeOffer(int offer_id){
+        if(offer_id < 1){
+            return;
+        }
+        og.removeOffer(offer_id);
     }
 }

@@ -36,7 +36,7 @@ public class AgencyLogic {
     }
 
     public String getAllAgencies(){
-        return ag.getAllAgencys();
+        return ag.getAllAgencies();
     }
 
     public void addAgency(int user_id){
@@ -53,6 +53,20 @@ public class AgencyLogic {
         }
 
         return ag.getAgencyIdByUserId(userID);
+    }
+
+    public List<Integer> getAllAgencyIDs()
+    {
+        List<Integer> ids = new ArrayList<>();
+        String agency_ids = ag.getAllAgencyIDs();
+
+        String[] fields = agency_ids.split("\n");
+        for (String field : fields)
+        {
+            ids.add(Integer.parseInt(field));
+        }
+
+        return ids;
     }
 
     public List<Offer> findOffersByAgency(int agencyId, Request request)
@@ -94,18 +108,24 @@ public class AgencyLogic {
         return true;
     }
 
-    public void receivePaymentFromClient(int order_id)
+    public void confirmPayment(int order_id)
     {
-        orl.setOrderStatusById(order_id, Order.Status.PAID);
+        Order.Status currentStatus = orl.getOrderStatusById(order_id);
+        if (currentStatus == Order.Status.PAID)
+            orl.setOrderStatusById(order_id, Order.Status.PAYMENT_CONFIRMED);
     }
 
-    public void performPaymentToPerformer(int performer_id, int order_id)
+    public void performPaymentToPerformer(int order_id)
     {
-        Order order = orl.getOrderById(order_id);
-        Offer offer = ofl.getOfferById(order.getOfferID());
-        double paymentAmount = 0.9 * offer.getPrice();
-        prl.performPaymentToPerformer(performer_id, paymentAmount);
-        orl.setOrderStatusById(order_id, Order.Status.COMPLETED);
+        Order.Status currentStatus = orl.getOrderStatusById(order_id);
+        if (currentStatus == Order.Status.CONFIRMED)
+        {
+            Order order = orl.getOrderById(order_id);
+            Offer offer = ofl.getOfferById(order.getOfferID());
+            double paymentAmount = 0.9 * offer.getPrice();
+            prl.performPaymentToPerformer(offer.getPerformerID(), paymentAmount);
+            orl.setOrderStatusById(order_id, Order.Status.COMPLETED);
+        }
     }
 
 

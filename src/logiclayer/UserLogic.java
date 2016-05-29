@@ -1,6 +1,7 @@
 package logiclayer;
 
 import datalayer.UserGateway;
+import servicelayer.Util;
 
 public class UserLogic {
     UserGateway ug = new UserGateway();
@@ -25,5 +26,21 @@ public class UserLogic {
 
     public int getUserIdByUsername(String username){
         return ug.getUserIdByUsername(username);
+    }
+
+    public void logIn(int userId)
+    {
+        Util.currentLoggedUser = userId;
+    }
+
+    public void logOut(int userId)
+    {
+        if (userId < 1)
+            return;
+
+        if (userId != Util.currentLoggedUser)
+            return;
+
+        Util.currentLoggedUser = 0;
     }
 }

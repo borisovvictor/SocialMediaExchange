@@ -98,6 +98,17 @@ public class AgencyLogicTest {
         assertEquals(0, result.size());
     }
 
+    @Test
+    public void testGetAllAgencyIDs()
+    {
+        System.out.println("getAllAgencyIDs");
+
+        AgencyLogic instance = new AgencyLogic();
+
+        List<Integer> result = instance.getAllAgencyIDs();
+        assertNotEquals(0, result.size());
+    }
+
 
 
 

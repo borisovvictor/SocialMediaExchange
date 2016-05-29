@@ -10,14 +10,16 @@ public class Order {
 
     public enum Status
     {
-        NONE(0),       // отсутствует
-        CREATED(1),    // создан
-        APPROVED(2),   // условия согласованы
-        REJECTED(3),   // условия отклонены
-        PAID(4),       // оплачен
-        PERFORMED(5),  // выполнен
-        CONFIRMED(6),  // выполнение подтверждено
-        COMPLETED(7);  // завершен
+        NONE(0),                // отсутствует
+        CREATED(1),             // создан
+        COND_OFFERED(2),        // условия предложены
+        APPROVED(3),            // условия согласованы
+        REJECTED(4),            // условия отклонены
+        PAID(5),                // оплачен
+        PAYMENT_CONFIRMED(6),   // платеж подтвержден
+        PERFORMED(7),           // выполнен
+        CONFIRMED(8),           // выполнение подтверждено
+        COMPLETED(9);           // завершен
 
         private int value;
         private static Map<Integer, Status> map = new HashMap<>();

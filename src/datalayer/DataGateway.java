@@ -70,9 +70,6 @@ public class DataGateway {
 
     public static void update(String str) {
         try {
-            //System.out.println("update: " + str);
-            //System.out.println("-------------------------");
-
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(str);
             stmt.close();

@@ -63,24 +63,33 @@ public class ClientLogic {
         return new Request(price, period, socialMedia, keyWords);
     }
 
-    public int createOrder(Client client, Offer offer, String conditions)
+    public int createOrder(int client_id, int offer_id, String conditions)
     {
-        return ol.addOrder(client.getClientID(), offer.getID(), Order.Status.CREATED, conditions);
+        return ol.addOrder(client_id, offer_id, Order.Status.CREATED, conditions);
     }
 
-    public void setConditions(Order order, String conditions)
+    public void removeOrder(int order_id)
     {
-        ol.setOrderConditionsById(order.getID(), conditions);
+        ol.removeOrder(order_id);
     }
 
-    public void payOrder(int orderid)
+    public void setConditions(int orderid, String conditions)
     {
-        al.receivePaymentFromClient(orderid);
+        ol.setOrderConditionsById(orderid, conditions);
+    }
+
+    public void payForOrder(int orderid)
+    {
+        Order.Status currentStatus = ol.getOrderStatusById(orderid);
+        if (currentStatus == Order.Status.APPROVED)
+            ol.setOrderStatusById(orderid, Order.Status.PAID);
     }
 
     public void confirmOrder(int orderid)
     {
-        ol.setOrderStatusById(orderid, Order.Status.CONFIRMED);
+        Order.Status currentStatus = ol.getOrderStatusById(orderid);
+        if (currentStatus == Order.Status.PERFORMED)
+            ol.setOrderStatusById(orderid, Order.Status.CONFIRMED);
     }
 
 

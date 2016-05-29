@@ -4,6 +4,8 @@ import datalayer.DataGateway;
 import entity.Order;
 import org.junit.*;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -69,6 +71,48 @@ public class OrderLogicTest {
         OrderLogic instance = new OrderLogic();
         int result = instance.addOrder(12, 15, Order.Status.CREATED, "cond");
         assertNotEquals(result, 0);
+    }
+
+    @Test
+    public void testGetOrdersByClientID()
+    {
+        System.out.println("getOrdersByClientID");
+        OrderLogic instance = new OrderLogic();
+        int clientID = 12;
+        List<Order> orders = instance.getOrdersByClientId(clientID);
+        assertTrue(orders.size() > 0);
+
+        clientID = -1;
+        orders = instance.getOrdersByClientId(clientID);
+        assertTrue(orders.size() == 0);
+    }
+
+    @Test
+    public void testGetOrdersByPerformerID()
+    {
+        System.out.println("getOrdersByPerformerID");
+        OrderLogic instance = new OrderLogic();
+        int performerID = 13;
+        List<Order> orders = instance.getOrdersByPerformerId(performerID);
+        assertTrue(orders.size() > 0);
+
+        performerID = -1;
+        orders = instance.getOrdersByPerformerId(performerID);
+        assertTrue(orders.size() == 0);
+    }
+
+    @Test
+    public void testGetOrdersByAgencyID()
+    {
+        System.out.println("getOrdersByAgencyID");
+        OrderLogic instance = new OrderLogic();
+        int agencyID = 14;
+        List<Order> orders = instance.getOrdersByAgencyId(agencyID);
+        assertTrue(orders.size() > 0);
+
+        agencyID = -1;
+        orders = instance.getOrdersByAgencyId(agencyID);
+        assertTrue(orders.size() == 0);
     }
 
 }
