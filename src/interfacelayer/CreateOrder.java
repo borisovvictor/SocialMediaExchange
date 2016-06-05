@@ -28,9 +28,8 @@ public class CreateOrder extends JFrame {
     private JTextField priceField;
     private JTextField periodField;
     private JButton requestButton;
-    private JTable offersTable;
-    private JButton createOrderButton;
-    private JLabel offersLabel;
+    //private JTable offersTable;
+    //private JButton createOrderButton;
 
 
     public CreateOrder() {
@@ -47,44 +46,34 @@ public class CreateOrder extends JFrame {
                 createRequest();
             }
         });
-        createOrderButton.addActionListener(new ActionListener() {
+        /*createOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createOrder();
             }
-        });
+        });*/
     }
 
     private void createRequest() {
         if (keywordsField.getText().isEmpty()
                 || priceField.getText().isEmpty()
                 || socialmediaField.getText().isEmpty()
-                || periodField.getText().isEmpty())
-        {
+                || periodField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Empty fields");
             return;
         }
 
-        Request request = serviceLayer.createRequest(Double.parseDouble(priceField.getText()),
+        serviceLayer.createRequest(Double.parseDouble(priceField.getText()),
                 Integer.parseInt(periodField.getText()), socialmediaField.getText(), keywordsField.getText());
 
-        Map<Integer, List<Offer>> offers = serviceLayer.findOffers(request);
+        /*Map<Integer, List<Offer>> offers = serviceLayer.findOffers(request);
 
         List<Offer> offersList = new ArrayList<>();
         for (List<Offer> var : offers.values()) {
             offersList.addAll(var);
         }
 
-        offersTable.setModel(new OfferTableModel(offersList));
-    }
-
-    private void createOrder()
-    {
-        int offerID = Integer.parseInt(
-                offersTable.getValueAt(offersTable.getSelectedRow(), 0).toString());
-        serviceLayer.createOrder(offerID);
-        this.setVisible(false);
-        dispose();
+        offersTable.setModel(new OfferTableModel(offersList));*/
     }
 
     {
@@ -103,9 +92,9 @@ public class CreateOrder extends JFrame {
      */
     private void $$$setupUI$$$() {
         rootPanel = new JPanel();
-        rootPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(8, 2, new Insets(0, 0, 0, 0), -1, -1));
+        rootPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
         final JLabel label1 = new JLabel();
-        label1.setText("Key words");
+        label1.setText("Description");
         rootPanel.add(label1, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         keywordsField = new JTextField();
         rootPanel.add(keywordsField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
@@ -127,17 +116,6 @@ public class CreateOrder extends JFrame {
         requestButton = new JButton();
         requestButton.setText("Request");
         rootPanel.add(requestButton, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        rootPanel.add(panel1, new com.intellij.uiDesigner.core.GridConstraints(6, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        offersTable = new JTable();
-        panel1.add(offersTable, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
-        createOrderButton = new JButton();
-        createOrderButton.setText("Create order");
-        rootPanel.add(createOrderButton, new com.intellij.uiDesigner.core.GridConstraints(7, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        offersLabel = new JLabel();
-        offersLabel.setText("Offers:");
-        rootPanel.add(offersLabel, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -146,4 +124,13 @@ public class CreateOrder extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return rootPanel;
     }
+
+    /*private void createOrder() {
+        int offerID = Integer.parseInt(
+                offersTable.getValueAt(offersTable.getSelectedRow(), 0).toString());
+        serviceLayer.createOrder(offerID);
+        this.setVisible(false);
+        dispose();
+    }*/
+
 }

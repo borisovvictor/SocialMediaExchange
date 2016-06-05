@@ -18,6 +18,7 @@ public class ServiceLayer {
     public OfferLogic offerLogic;
     public OrderLogic orderLogic;
     public PerformerLogic performerLogic;
+    public RequestLogic requestLogic;
     public UserLogic userLogic;
 
     public ServiceLayer()
@@ -27,6 +28,7 @@ public class ServiceLayer {
         offerLogic = new OfferLogic();
         orderLogic = new OrderLogic();
         performerLogic = new PerformerLogic();
+        requestLogic = new RequestLogic();
         userLogic = new UserLogic();
     }
 
@@ -126,20 +128,24 @@ public class ServiceLayer {
     }
 
     // for client only
-    public Map<Integer, List<Offer> > findOffers(Request request)
+    public Map<Integer, List<Offer> > findOffers(double price, int period, String socialMedia, String keyWords)
     {
         Map<Integer, List<Offer> > allOffers = new HashMap<>();
-        int client_id = clientLogic.getClientId(Util.currentLoggedUser);
-        if (client_id < 1)
+        int agency_id = agencyLogic.getAgencyIdByUserId(Util.currentLoggedUser);
+        if (agency_id < 1)
             return allOffers; // user doesn't exist
 
-        List<Integer> ids = agencyLogic.getAllAgencyIDs();
-        for (Integer id : ids)
-        {
-            List<Offer> offers = agencyLogic.findOffersByAgency(id, request);
+        //List<Integer> ids = agencyLogic.getAllAgencyIDs();
+        //for (Integer id : ids)
+        //{
+        //    List<Offer> offers = agencyLogic.findOffersByAgency(id, price, period, socialMedia, keyWords);
+        //    if (offers.size() > 0)
+        //        allOffers.put(id, offers);
+        //}
+
+        List<Offer> offers = agencyLogic.findOffersByAgency(agency_id, price, period, socialMedia, keyWords);
             if (offers.size() > 0)
-                allOffers.put(id, offers);
-        }
+                allOffers.put(agency_id, offers);
 
         return allOffers;
     }
@@ -179,6 +185,38 @@ public class ServiceLayer {
         return new ArrayList<>();
     }
 
+    public List<Request> getRequestsByCurrentUser()
+    {
+        return getRequestsByUserId(Util.currentLoggedUser);
+    }
+
+    public List<Request> getRequestsByUserId(int userID)
+    {
+        int client_id = clientLogic.getClientId(userID);
+        if (client_id > 0)
+            return requestLogic.getRequestsByClientId(client_id);
+
+        int agency_id = agencyLogic.getAgencyIdByUserId(userID);
+        if (agency_id > 0)
+            return requestLogic.getUnassignedRequests();
+
+        return new ArrayList<>();
+    }
+
+    public List<Offer> getOffersByRequestId(int request_id)
+    {
+        List<Offer> offers = new ArrayList<>();
+        int client_id = clientLogic.getClientId(Util.currentLoggedUser);
+        if (client_id < 1)
+            return offers;
+        Request request = requestLogic.getRequestById(request_id);
+        for (Integer idx : request.getOffersIds())
+        {
+            Offer offer = offerLogic.getOfferById(idx);
+            offers.add(offer);
+        }
+        return offers;
+    }
 
     public int createOrder(int offer_id)
     {
@@ -242,10 +280,22 @@ public class ServiceLayer {
         return Util.Result.SUCCEED;
     }
 
-    public Request createRequest(double price, int period, String socialMedia, String keyWords)
+    public Util.Result createRequest(double price, int period, String socialMedia, String description)
     {
-        String[] words = keyWords.split(":| |,");
-        return clientLogic.createRequest(price, period, socialMedia, words);
+        int client_id = clientLogic.getClientId(Util.currentLoggedUser);
+        if (client_id < 1)
+            return Util.Result.USER_NOT_EXIST; // user doesn't exist
+        requestLogic.addRequest(client_id, price, period, description, socialMedia, Request.Status.CREATED);
+        return Util.Result.SUCCEED;
+    }
+
+    public Util.Result removeRequest(int request_id)
+    {
+        int client_id = clientLogic.getClientId(Util.currentLoggedUser);
+        if (client_id < 1)
+            return Util.Result.USER_NOT_EXIST; // user doesn't exist
+        requestLogic.removeRequest(request_id);
+        return Util.Result.SUCCEED;
     }
 
     public Util.Result approveOrderConditions(int order_id)
@@ -293,4 +343,15 @@ public class ServiceLayer {
         agencyLogic.performPaymentToPerformer(order_id);
         return Util.Result.SUCCEED;
     }
+
+    public Util.Result addOfferToRequest(int request_id, int offer_id)
+    {
+        int agency_id = agencyLogic.getAgencyIdByUserId(Util.currentLoggedUser);
+        if (agency_id < 1)
+            return Util.Result.USER_NOT_EXIST; // user doesn't exist
+        requestLogic.addOfferIdById(request_id, offer_id);
+        requestLogic.setRequestStatusById(request_id, Request.Status.ASSIGNED);
+        return Util.Result.SUCCEED;
+    }
+
 }

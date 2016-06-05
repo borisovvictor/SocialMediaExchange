@@ -68,6 +68,7 @@ public class OrderLogicTest {
     @Test
     public void testAddOrder() {
         System.out.println("addOrder");
+
         OrderLogic instance = new OrderLogic();
         int result = instance.addOrder(12, 15, Order.Status.CREATED, "cond");
         assertNotEquals(result, 0);

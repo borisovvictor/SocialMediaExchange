@@ -69,31 +69,31 @@ public class AgencyLogic {
         return ids;
     }
 
-    public List<Offer> findOffersByAgency(int agencyId, Request request)
+    public List<Offer> findOffersByAgency(int agencyId, double price, int period, String socialMedia, String keyWords)
     {
         List<Offer> allOffers = ofl.getOffersByAgencyId(agencyId);
         List<Offer> offers = new ArrayList<>();
 
         for (Offer o : allOffers)
         {
-          if (isOfferSatisfyRequest(o, request))
+          if (isOfferSatisfyRequest(o, price, period, socialMedia, keyWords))
               offers.add(o);
         }
 
         return offers;
     }
 
-    public boolean isOfferSatisfyRequest(Offer offer, Request request)
+    public boolean isOfferSatisfyRequest(Offer offer, double price, int period, String socialMedia, String keyWords)
     {
-        if (offer.getPrice() > request.getPrice())
+        if (offer.getPrice() > price)
             return false;
-        if (!offer.getSocialMedia().contains(request.getSocialMedia()))
+        if (!offer.getSocialMedia().contains(socialMedia))
             return false;
-        if (offer.getPeriod() < request.getPeriod())
+        if (offer.getPeriod() < period)
             return false;
 
         boolean containKeyWords = false;
-        for (String keyWord : request.getKeyWords())
+        for (String keyWord : keyWords.split(":| |,"))
         {
             if (offer.getDescription().contains(keyWord))
             {

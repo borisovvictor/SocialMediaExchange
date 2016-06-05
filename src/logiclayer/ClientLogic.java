@@ -58,9 +58,9 @@ public class ClientLogic {
         return cg.getClientIdByUserId(userID);
     }
 
-    public Request createRequest(double price, int period, String socialMedia, String[] keyWords)
+    public Request createRequest(double price, int period, String socialMedia, String description)
     {
-        return new Request(price, period, socialMedia, keyWords);
+        return new Request(price, period, socialMedia, description);
     }
 
     public int createOrder(int client_id, int offer_id, String conditions)
