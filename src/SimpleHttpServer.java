@@ -74,11 +74,16 @@ public class SimpleHttpServer {
             }
 
             if (succ) {
+                int maxCount = Integer.parseInt(parms.get("maxCount"));
                 response.append(": " + parms.get("username") + "<br/>");
                 List<Order> orders = sl.getOrdersByUserId(userID);
                 response.append("Order ID   Offer ID    Client ID   Order   Conditions<br/>");
+                int idx = 0;
                 for (Order order : orders)
                 {
+                    if (idx >= maxCount)
+                        break;
+                    idx++;
                     response.append(order.getID() + "   " + order.getOfferID() + "   " + order.getClientID()
                             + "   " + order.getOrderStatus().toString() + "   " +  order.getSpecialConditions() + "<br/>") ;
                 }
