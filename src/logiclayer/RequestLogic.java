@@ -113,6 +113,15 @@ public class RequestLogic {
         return og.getAllRequests();
     }
 
+
+    public List<Request> getAllRequestsParsed()
+    {
+        String requestsString = og.getAllRequests();
+        return parseRequests(requestsString);
+    }
+
+
+
     public Set<Integer> getOfferIDsById(int requestID) {
         if (requestID < 1) {
             return null;

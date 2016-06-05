@@ -197,9 +197,10 @@ public class ServiceLayer {
             return requestLogic.getRequestsByClientId(client_id);
 
         int agency_id = agencyLogic.getAgencyIdByUserId(userID);
-        if (agency_id > 0)
-            return requestLogic.getUnassignedRequests();
-
+        if (agency_id > 0) {
+            return requestLogic.getAllRequestsParsed();
+            //return requestLogic.getUnassignedRequests();
+        }
         return new ArrayList<>();
     }
 

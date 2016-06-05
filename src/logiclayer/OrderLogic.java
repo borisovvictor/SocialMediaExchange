@@ -103,7 +103,7 @@ public class OrderLogic {
 
         String[] fields = ordersString.split("\n");
         int columnCount = 5;
-        int count = fields.length / columnCount;
+        int count = (fields.length +1)/ columnCount;
 
         for (int idx =0; idx < count; idx++)
         {
@@ -112,7 +112,10 @@ public class OrderLogic {
             o.setClientID(Integer.parseInt(fields[1 + idx * columnCount]));
             o.setOfferID(Integer.parseInt(fields[2 + idx * columnCount]));
             o.setOrderStatus(Order.Status.values()[Integer.parseInt(fields[3 + idx * columnCount])]);
-            o.setSpecialConditions(fields[4 + idx * columnCount]);
+            if ((4 + idx * columnCount) == fields.length)
+                o.setSpecialConditions("");
+            else
+                o.setSpecialConditions(fields[4 + idx * columnCount]);
             orders.add(o);
         }
         return orders;

@@ -28,26 +28,26 @@ public class RequestTableModel implements TableModel {
     }
 
     public int getColumnCount() {
-        return 8;
+        return 7;
     }
 
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
             case 0:
                 return "ID";
+            //case 1:
+            //    return "Performer ID";
             case 1:
-                return "Performer ID";
-            case 2:
                 return "Price";
-            case 3:
+            case 2:
                 return "Period";
-            case 4:
+            case 3:
                 return "Description";
-            case 5:
+            case 4:
                 return "Social media";
-            case 6:
+            case 5:
                 return "Status";
-            case 7:
+            case 6:
                 return "Offers";
         }
         return "";
@@ -62,19 +62,19 @@ public class RequestTableModel implements TableModel {
         switch (columnIndex) {
             case 0:
                 return request.getID();
+            //case 1:
+            //    return request.getClientID();
             case 1:
-                return request.getClientID();
-            case 2:
                 return request.getPrice();
-            case 3:
+            case 2:
                 return request.getPeriod();
-            case 4:
+            case 3:
                 return request.getDescription();
-            case 5:
+            case 4:
                 return request.getSocialMedia();
-            case 6:
+            case 5:
                 return  request.getStatus();
-            case 7:
+            case 6:
                 return request.getOffersIds();
         }
         return "";
