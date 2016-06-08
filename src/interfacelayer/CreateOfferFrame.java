@@ -1,13 +1,12 @@
 package interfacelayer;
 
-import servicelayer.ServiceLayer;
+import logiclayer.ExchangeService;
 import servicelayer.Util;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Arc2D;
 
 /**
  * Created by Victor on 25.05.2016.
@@ -70,7 +69,7 @@ public class CreateOfferFrame extends JFrame {
 
     FrameType frameType;
 
-    ServiceLayer serviceLayer = new ServiceLayer();
+    ExchangeService exchangeService = new ExchangeService();
 
     public CreateOfferFrame(FrameType frameType) {
         super("Create...");
@@ -100,10 +99,10 @@ public class CreateOfferFrame extends JFrame {
         Util.Result result = Util.Result.FAILED;
 
         if (frameType == FrameType.OFFER_TYPE)
-            result = serviceLayer.createOffer(Double.parseDouble(priceField.getText()),
+            result = exchangeService.createOffer(Double.parseDouble(priceField.getText()),
                     Integer.parseInt(periodField.getText()), descriptionField.getText(), socialMediaField.getText());
         else
-            result = serviceLayer.createRequest(Double.parseDouble(priceField.getText()),
+            result = exchangeService.createRequest(Double.parseDouble(priceField.getText()),
                     Integer.parseInt(periodField.getText()), socialMediaField.getText(), descriptionField.getText());
 
         String msg = "";

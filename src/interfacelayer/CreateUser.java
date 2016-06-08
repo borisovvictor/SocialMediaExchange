@@ -1,9 +1,6 @@
 package interfacelayer;
 
-import entity.Agency;
-import entity.Client;
-import entity.Performer;
-import servicelayer.ServiceLayer;
+import logiclayer.ExchangeService;
 import servicelayer.Util;
 
 import javax.swing.*;
@@ -16,7 +13,7 @@ import java.awt.event.ActionListener;
  */
 public class CreateUser extends JFrame {
 
-    ServiceLayer serviceLayer = new ServiceLayer();
+    ExchangeService exchangeService = new ExchangeService();
 
     private JPanel rootPanel;
     private JComboBox userType;
@@ -91,13 +88,13 @@ public class CreateUser extends JFrame {
 
         String userTypeStr = String.valueOf(userType.getSelectedItem());
         if (userTypeStr.contains("Client")) {
-            result = serviceLayer.createNewClient(nameField.getText(), usernameField.getText(),
+            result = exchangeService.createNewClient(nameField.getText(), usernameField.getText(),
                     passwordField.getText(), phoneField.getText());
         } else if (userTypeStr.contains("Performer")) {
-            result = serviceLayer.createNewPerformer(nameField.getText(), usernameField.getText(),
+            result = exchangeService.createNewPerformer(nameField.getText(), usernameField.getText(),
                     passwordField.getText(), phoneField.getText(), Integer.parseInt(agencyField.getText()));
         } else if (userTypeStr.contains("Agency")) {
-            result = serviceLayer.createNewAgency(nameField.getText(), usernameField.getText(),
+            result = exchangeService.createNewAgency(nameField.getText(), usernameField.getText(),
                     passwordField.getText());
         }
 

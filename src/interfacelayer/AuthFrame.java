@@ -4,14 +4,14 @@ import datalayer.DataGateway;
 import entity.Agency;
 import entity.Client;
 import entity.Performer;
-import servicelayer.ServiceLayer;
+import logiclayer.ExchangeService;
 import servicelayer.Util;
 
 import javax.swing.JOptionPane;
 
 public class AuthFrame extends javax.swing.JFrame {
 
-    ServiceLayer serviceLayer = new ServiceLayer();
+    public ExchangeService exchangeService = new ExchangeService();
 
     public AuthFrame() {
         initComponents();
@@ -101,7 +101,7 @@ public class AuthFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Wrong username or password");
         }
 
-        Object result = serviceLayer.auth(usernameField.getText(), passwordField.getText());
+        Object result = exchangeService.auth(usernameField.getText(), passwordField.getText());
         if(result instanceof Client){
             UserFrame userFrame = new UserFrame((Client)result);
             userFrame.setVisible(true);

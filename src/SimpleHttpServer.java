@@ -13,7 +13,7 @@ import entity.Agency;
 import entity.Client;
 import entity.Order;
 import entity.Performer;
-import servicelayer.ServiceLayer;
+import logiclayer.ExchangeService;
 import servicelayer.Util;
 
 
@@ -47,7 +47,7 @@ public class SimpleHttpServer {
 
             boolean succ = true;
 
-            ServiceLayer sl = new ServiceLayer();
+            ExchangeService sl = new ExchangeService();
 
             Object user = sl.auth(parms.get("username"), parms.get("password"));
             int userID = -1;

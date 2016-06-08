@@ -1,9 +1,7 @@
 package interfacelayer;
 
 import entity.*;
-import servicelayer.ServiceLayer;
-import servicelayer.Util;
-import sun.misc.Perf;
+import logiclayer.ExchangeService;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ import java.util.Map;
  */
 public class UserFrame extends JFrame {
 
-    ServiceLayer serviceLayer = new ServiceLayer();
+    ExchangeService exchangeService = new ExchangeService();
     /*Client m_client;
     Performer m_performer;
     Agency m_agency;*/
@@ -52,8 +50,8 @@ public class UserFrame extends JFrame {
                         requestsTable.getValueAt(requestsTable.getSelectedRow(), 0).toString());
                 int offerID = Integer.parseInt(
                         offersTable.getValueAt(offersTable.getSelectedRow(), 0).toString());
-                serviceLayer.createOrder(offerID);
-                serviceLayer.removeRequest(requestID);
+                exchangeService.createOrder(offerID);
+                exchangeService.removeRequest(requestID);
                 refreshData();
             }
         });
@@ -63,7 +61,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int orderID = Integer.parseInt(
                         ordersTable.getValueAt(ordersTable.getSelectedRow(), 0).toString());
-                serviceLayer.payForOrder(orderID);
+                exchangeService.payForOrder(orderID);
                 refreshOrders();
             }
         });
@@ -73,7 +71,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int orderID = Integer.parseInt(
                         ordersTable.getValueAt(ordersTable.getSelectedRow(), 0).toString());
-                serviceLayer.performOrderPayment(orderID);
+                exchangeService.performOrderPayment(orderID);
                 refreshOrders();
             }
         });
@@ -83,7 +81,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int orderID = Integer.parseInt(
                         ordersTable.getValueAt(ordersTable.getSelectedRow(), 0).toString());
-                serviceLayer.approveOrderConditions(orderID);
+                exchangeService.approveOrderConditions(orderID);
                 refreshOrders();
             }
         });
@@ -93,7 +91,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int orderID = Integer.parseInt(
                         ordersTable.getValueAt(ordersTable.getSelectedRow(), 0).toString());
-                serviceLayer.rejectOrderConditions(orderID);
+                exchangeService.rejectOrderConditions(orderID);
                 refreshOrders();
             }
         });
@@ -103,7 +101,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int orderID = Integer.parseInt(
                         ordersTable.getValueAt(ordersTable.getSelectedRow(), 0).toString());
-                serviceLayer.performOrder(orderID);
+                exchangeService.performOrder(orderID);
                 refreshOrders();
             }
         });
@@ -113,7 +111,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int orderID = Integer.parseInt(
                         ordersTable.getValueAt(ordersTable.getSelectedRow(), 0).toString());
-                serviceLayer.confirmOrder(orderID);
+                exchangeService.confirmOrder(orderID);
                 refreshOrders();
             }
         });
@@ -123,7 +121,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int orderID = Integer.parseInt(
                         ordersTable.getValueAt(ordersTable.getSelectedRow(), 0).toString());
-                serviceLayer.confirmOrderPayment(orderID);
+                exchangeService.confirmOrderPayment(orderID);
                 refreshOrders();
             }
         });
@@ -133,7 +131,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int orderID = Integer.parseInt(
                         ordersTable.getValueAt(ordersTable.getSelectedRow(), 0).toString());
-                serviceLayer.removeOrder(orderID);
+                exchangeService.removeOrder(orderID);
                 refreshOrders();
             }
         });
@@ -152,7 +150,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int offerID = Integer.parseInt(
                         offersTable.getValueAt(offersTable.getSelectedRow(), 0).toString());
-                serviceLayer.removeOffer(offerID);
+                exchangeService.removeOffer(offerID);
                 refreshOffers();
             }
         });
@@ -162,7 +160,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int orderID = Integer.parseInt(
                         ordersTable.getValueAt(ordersTable.getSelectedRow(), 0).toString());
-                serviceLayer.setConditions(orderID, conditionText.getText());
+                exchangeService.setConditions(orderID, conditionText.getText());
                 conditionText.setText("");
                 refreshOrders();
             }
@@ -188,7 +186,7 @@ public class UserFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int requestID = Integer.parseInt(
                         requestsTable.getValueAt(requestsTable.getSelectedRow(), 0).toString());
-                serviceLayer.removeRequest(requestID);
+                exchangeService.removeRequest(requestID);
                 refreshRequests();
             }
         });
@@ -199,7 +197,7 @@ public class UserFrame extends JFrame {
                         requestsTable.getValueAt(requestsTable.getSelectedRow(), 0).toString());
                 int offerID = Integer.parseInt(
                         offersTable.getValueAt(offersTable.getSelectedRow(), 0).toString());
-                serviceLayer.addOfferToRequest(requestID, offerID);
+                exchangeService.addOfferToRequest(requestID, offerID);
                 refreshRequests();
             }
         });
@@ -314,7 +312,7 @@ public class UserFrame extends JFrame {
         // test
         //orders.add(new Order(1, 2, "123"));
         //orders.add(new Order(1, 2, "123"));
-        orders = serviceLayer.getOrdersByCurrentUser();
+        orders = exchangeService.getOrdersByCurrentUser();
         ordersTable.setModel(new OrderTableModel(orders));
     }
 
@@ -324,14 +322,14 @@ public class UserFrame extends JFrame {
             // test
             //offers.add(new Offer(150.1, 7, "decr", "insta"));
             //offers.add(new Offer(110.1, 5, "decr1", "fb"));
-            offers = serviceLayer.getOffersByCurrentUser();
+            offers = exchangeService.getOffersByCurrentUser();
             offersTable.setModel(new OfferTableModel(offers));
         } else if (m_user instanceof Client) {
             List<Offer> offers = new ArrayList<>();
             if (requestsTable.getSelectedRow() >= 0) {
                 int requestID = Integer.parseInt(
                         requestsTable.getValueAt(requestsTable.getSelectedRow(), 0).toString());
-                offers = serviceLayer.getOffersByRequestId(requestID);
+                offers = exchangeService.getOffersByRequestId(requestID);
             }
             offersTable.setModel(new OfferTableModel(offers));
         }
@@ -344,7 +342,7 @@ public class UserFrame extends JFrame {
             // test
             //offers.add(new Offer(150.1, 7, "decr", "insta"));
             //offers.add(new Offer(110.1, 5, "decr1", "fb"));
-            requests = serviceLayer.getRequestsByCurrentUser();
+            requests = exchangeService.getRequestsByCurrentUser();
             requestsTable.setModel(new RequestTableModel(requests));
         }
     }
@@ -365,7 +363,7 @@ public class UserFrame extends JFrame {
         }
 
 
-        Map<Integer, List<Offer>> offers = serviceLayer.findOffers(Double.parseDouble(priceField.getText()),
+        Map<Integer, List<Offer>> offers = exchangeService.findOffers(Double.parseDouble(priceField.getText()),
                 Integer.parseInt(periodField.getText()), socialMediaField.getText(), keyWordsField.getText());
 
         List<Offer> offersList = new ArrayList<>();

@@ -2,6 +2,7 @@ package logiclayer;
 
 import datalayer.DataGateway;
 import entity.Order;
+import entity.Request;
 import org.junit.*;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class OrderLogicTest {
     @Test
     public void testGetOrderById() throws Exception {
         System.out.println("getOrderById");
-        OrderLogic instance = new OrderLogic();
+        ExchangeService instance = new ExchangeService();
 
         int orderID = 16;
         Order expResult = new Order(12, 15, "cond_text");
@@ -46,7 +47,7 @@ public class OrderLogicTest {
     @Test
     public void testSetGetOrderStatusById() throws Exception {
         System.out.println("setGetOrderById");
-        OrderLogic instance = new OrderLogic();
+        ExchangeService instance = new ExchangeService();
 
         int orderID = 16;
         Order.Status orig = instance.getOrderStatusById(orderID);
@@ -60,7 +61,7 @@ public class OrderLogicTest {
     @Test
     public void testGetAllOrders() throws Exception {
         System.out.println("getAllOrders");
-        OrderLogic instance = new OrderLogic();
+        ExchangeService instance = new ExchangeService();
         String result = instance.getAllOrders();
         assertFalse(result.isEmpty());
     }
@@ -69,7 +70,7 @@ public class OrderLogicTest {
     public void testAddOrder() {
         System.out.println("addOrder");
 
-        OrderLogic instance = new OrderLogic();
+        ExchangeService instance = new ExchangeService();
         int result = instance.addOrder(12, 15, Order.Status.CREATED, "cond");
         assertNotEquals(result, 0);
     }
@@ -78,7 +79,7 @@ public class OrderLogicTest {
     public void testGetOrdersByClientID()
     {
         System.out.println("getOrdersByClientID");
-        OrderLogic instance = new OrderLogic();
+        ExchangeService instance = new ExchangeService();
         int clientID = 12;
         List<Order> orders = instance.getOrdersByClientId(clientID);
         assertTrue(orders.size() > 0);
@@ -92,7 +93,7 @@ public class OrderLogicTest {
     public void testGetOrdersByPerformerID()
     {
         System.out.println("getOrdersByPerformerID");
-        OrderLogic instance = new OrderLogic();
+        ExchangeService instance = new ExchangeService();
         int performerID = 13;
         List<Order> orders = instance.getOrdersByPerformerId(performerID);
         assertTrue(orders.size() > 0);
@@ -106,7 +107,7 @@ public class OrderLogicTest {
     public void testGetOrdersByAgencyID()
     {
         System.out.println("getOrdersByAgencyID");
-        OrderLogic instance = new OrderLogic();
+        ExchangeService instance = new ExchangeService();
         int agencyID = 14;
         List<Order> orders = instance.getOrdersByAgencyId(agencyID);
         assertTrue(orders.size() > 0);
@@ -114,6 +115,62 @@ public class OrderLogicTest {
         agencyID = -1;
         orders = instance.getOrdersByAgencyId(agencyID);
         assertTrue(orders.size() == 0);
+    }
+
+    @Test
+    public void testGetRequestById() throws Exception {
+        System.out.println("getRequestById");
+        ExchangeService instance = new ExchangeService();
+
+        int requestID = 2;
+        Request expResult = new Request(100, 7, "instagram", "sometext");
+        expResult.setClientID(2);
+        expResult.setID(requestID);
+        expResult.setStatus(Request.Status.ASSIGNED);
+        Request result = instance.getRequestById(requestID);
+        assertEquals(expResult.getID(), result.getID());
+        assertEquals(expResult.getClientID(), result.getClientID());
+        assertEquals(expResult.getStatus(), result.getStatus());
+        assertEquals(expResult.getDescription(), result.getDescription());
+        assertEquals(expResult.getSocialMedia(), result.getSocialMedia());
+
+        requestID = -1;
+        expResult = null;
+        result = instance.getRequestById(requestID);
+        assertEquals(expResult, result);
+
+    }
+
+    @Test
+    public void testSetGetRequestStatusById() throws Exception {
+
+        System.out.println("setGetRequestById");
+        ExchangeService instance = new ExchangeService();
+
+        int requestID = 2;
+        Request.Status orig = instance.getRequestStatusById(requestID);
+        Request.Status expResult = Request.Status.ASSIGNED;
+        instance.setRequestStatusById(requestID, expResult);
+        Request.Status result = instance.getRequestStatusById(requestID);
+        assertEquals(expResult, result);
+        instance.setRequestStatusById(requestID, orig);
+    }
+
+    @Test
+    public void testGetAllRequests() throws Exception {
+        System.out.println("getAllRequests");
+        ExchangeService instance = new ExchangeService();
+        String result = instance.getAllRequests();
+        assertFalse(result.isEmpty());
+    }
+
+
+    @Test
+    public void testAddRequest() {
+        System.out.println("addRequest");
+        ExchangeService instance = new ExchangeService();
+        int result = instance.addRequest(2, 100, 7, "sometext", "instagram", Request.Status.CREATED);
+        assertNotEquals(result, 0);
     }
 
 }

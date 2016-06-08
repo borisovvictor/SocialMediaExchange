@@ -1,13 +1,7 @@
 package interfacelayer;
 
-import entity.Offer;
-import entity.Request;
-import servicelayer.ServiceLayer;
-import servicelayer.Util;
+import logiclayer.ExchangeService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +12,7 @@ import java.awt.event.ActionListener;
  */
 public class CreateOrder extends JFrame {
 
-    ServiceLayer serviceLayer = new ServiceLayer();
+    ExchangeService exchangeService = new ExchangeService();
     private JPanel rootPanel;
     private JTextField keywordsField;
     private JLabel socialmediaLabel;
@@ -63,10 +57,10 @@ public class CreateOrder extends JFrame {
             return;
         }
 
-        serviceLayer.createRequest(Double.parseDouble(priceField.getText()),
+        exchangeService.createRequest(Double.parseDouble(priceField.getText()),
                 Integer.parseInt(periodField.getText()), socialmediaField.getText(), keywordsField.getText());
 
-        /*Map<Integer, List<Offer>> offers = serviceLayer.findOffers(request);
+        /*Map<Integer, List<Offer>> offers = exchangeService.findOffers(request);
 
         List<Offer> offersList = new ArrayList<>();
         for (List<Offer> var : offers.values()) {
@@ -128,7 +122,7 @@ public class CreateOrder extends JFrame {
     /*private void createOrder() {
         int offerID = Integer.parseInt(
                 offersTable.getValueAt(offersTable.getSelectedRow(), 0).toString());
-        serviceLayer.createOrder(offerID);
+        exchangeService.createOrder(offerID);
         this.setVisible(false);
         dispose();
     }*/
